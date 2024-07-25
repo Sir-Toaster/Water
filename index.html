@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head></head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Water for All</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        body {
+            background-image: url("https://cdn.discordapp.com/attachments/1260602978130329612/1262773038567391387/pixil-gif-drawing.gif?ex=66a3ae09&is=66a25c89&hm=778475cb2b19b2f8d35e28059bc92322f265536f014866ace1bfdb2d5fc86ccd&");
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #50b3a2;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #333;
+        }
+        nav a {
+            color: #fff;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+        nav a:hover {
+            background: #50b3a2;
+        }
+        .container {
+            
+            padding: 20px;
+            border: 1px solid black;
+            margin: 10px;
+            background-color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .section {
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Clean Water for All</h1>
+<img src="https://cdss.berkeley.edu/sites/default/files/styles/max_2600x2600/public/2023-04/pexels-pixabay-416528.jpg?itok=nlTmAdZO" alt="water1"height="250px" />
+    </header>
+    <nav>
+        <a data-tab="introduction">Intro</a>
+        <a data-tab="issues">Current Issues</a>
+        <a data-tab="solutions">Solutions</a>
+        <a data-tab="contact">Contact Us</a>
+        <a data-tab="updates">Statistics</a>
+        <a data-tab="donate">How to Help</a>
+    </nav>
+    <div class="container">
+        <div id="introduction" class="tab-content active">
+            <h2>Introduction</h2>
+            <p>Access to clean water is essential for life, yet millions of people around the world lack this basic necessity. Our mission is to raise awareness and provide solutions to ensure clean water for everyone.</p>
+<img src="imgs/water shortage.jpg">
+        </div>
+        <div id="issues" class="tab-content">
+            <h2>Current Issues</h2>
+            <p>Water scarcity, pollution, and lack of infrastructure are major issues affecting clean water availability. Contaminated water sources lead to diseases and impact overall health and wellbeing. </p>
+ <img src="imgs/Water pollution.jpg">
+            <img src="imgs/current issues.jpg">
+        </div>
+        <div id="solutions" class="tab-content">
+            <h2>Solutions</h2>
+            <p>Innovative solutions such as water purification systems, sustainable water management practices, and infrastructure development can help address these issues. Community involvement and education are also crucial in ensuring long-term access to clean water.<br>
+            <a href="https://www.culligan.com/blog/how-does-water-purification-filtration-work">Visit to learn how water purification system work <a <br><br>
+            <img src="imgs/water purtification image.jpg">
+            <img src="imgs/water mangage.jpg">
+            </div>
+         <div id="contact" class="tab-content">
+        
+            <h2>Contact Us</h2>
+            <form>
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name"><br><br>
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email"><br><br>
+                <label for="message">Message:</label><br>
+                <textarea id="message" name="message" rows="4" cols="50"></textarea><br>
+                <input type="submit" value="Submit">
+            </form> 
+         </div>
+        <div id="donate" class="tab-content">
+            <h2>How to Help</h2>
+            <form>
+                <label for="credit">Credit Card Info:</label><br>
+                <input type="text" id="credit" name="credit"><br><br>
+                <label for="donate">Donation Amount:</label><br>
+                <input type="text" id="donate" name="donate"><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div id="updates" class="tab-content">
+            <h2>Statistics</h2>
+            <div id="live_data">
+                <p><a href="https://www.epa.gov/greeningepa/water-management-plans-and-best-practices-epa">water-management-plans-and-best-practices-epa <a </p>
+                                                 <p><a href="https://www.essentialneed.org/education/world-water-data">world-water-data</a> </p>    
+
+        <p><a    href="https://www.openstreetmap.org/copyright">OpenStreetMapcontributors </a></p>
+                    
+                </div>
+                <script>
+                var map = L.map('map').setView([20, 0], 2);
+                                // the OpenStreetMap tiles     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                            maxZoom: 18,
+                                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+
+                                        // Fetch data from the provided URL
+                                        async function fetchData() {
+                                            try {
+                                                const response = await 
+                                                const html = await response.text();
+                                                const parser = new DOMParser();
+                                                const doc = parser.parseFromString(html, 'text/html');
+                                                const tableRows = doc.querySelectorAll('.table-01 tbody tr');
+                                                const data = Array.from(tableRows).map(row => {
+                                                    const cells = row.querySelectorAll('td');
+                                                    return {
+                                                        country: cells[0].innerText.trim(),
+                                                        cleanWater: parseFloat(cells[1].innerText.trim()),
+                                                        noCleanWater: parseFloat(cells[2].innerText.trim())
+                                                    };
+                                                });
+                                                return data;
+                                            } catch (error) {
+                                                console.error('Error fetching data:', error);
+                                            }
+                                        }
+
+                                        // Add markers to the map
+                                        async function addMarkers() {
+                                            const data = await fetchData();
+                                            data.forEach(item => {
+                                                // Using random coordinates for demonstration purposes
+                                                const lat = Math.random() * 180 - 90;
+                                                const lon = Math.random() * 360 - 180;
+                                                const marker = L.marker([lat, lon]).addTo(map);
+                                                marker.bindPopup(`<b>${item.country}</b><br>Clean Water: ${item.cleanWater}%<br>No Clean Water: ${item.noCleanWater}%`);
+                                            });
+                                        }
+
+                                </script>
+                            </div>
+                        </div>
+                        <script>
+                            const tabs = document.querySelectorAll('nav a');
+                            const contents = document.querySelectorAll('.tab-content');
+                            tabs.forEach(tab => {
+                                tab.addEventListener('click', function() {
+                                    contents.forEach(content => {
+                                        content.classList.remove('active');
+                                    });
+                                    document.getElementById(this.dataset.tab).classList.add('active');
+                                });
+                            });
+                        </script>
+                    </body>
+                    </html>
